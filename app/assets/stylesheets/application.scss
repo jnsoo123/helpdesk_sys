@@ -1,0 +1,23 @@
+@import 'bootswatch/pulse/variables';
+@import 'bootstrap';
+@import 'bootswatch/pulse/bootswatch';
+@import 'font-awesome-sprockets';
+@import 'font-awesome';
+
+body { margin-top: 20px; }
+
+.login-form {
+  width: 500px;
+  background-color: whitesmoke;
+  padding: 20px;
+}
+
+.sessions-new {
+  .row {
+    height: 500px;
+  }
+}
+
+.badge-pending  { @extend .badge-warning }
+.badge-ongoing  { @extend .badge-info    }
+.badge-resolved { @extend .badge-success }

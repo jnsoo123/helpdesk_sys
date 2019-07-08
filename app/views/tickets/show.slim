@@ -1,0 +1,31 @@
+.clearfix
+  .float-left
+    p.lead
+      = "#{@ticket.title} • Posted by #{@ticket.user.name} #{time_ago_in_words(@ticket.created_at)} ago"
+      span.badge.ml-2 class='badge-#{@ticket.status}'= @ticket.status.capitalize
+  - if policy(:'Tickets::Status').update?
+    .float-right
+      .dropdown
+        a#status-dropdown.btn.btn-primary.dropdown-toggle href='#' role='button' data-toggle='dropdown'
+          | Set Status
+        .dropdown-menu aria-labelledby='status-dropdown'
+          = link_to 'Pending',  ticket_status_path(ticket_id: @ticket.id, status: :pending),  class: 'dropdown-item', method: :put
+          = link_to 'Ongoing',  ticket_status_path(ticket_id: @ticket.id, status: :ongoing),  class: 'dropdown-item', method: :put
+          = link_to 'Resolved', ticket_status_path(ticket_id: @ticket.id, status: :resolved), class: 'dropdown-item', method: :put
+
+hr 
+p= @ticket.body
+br
+br
+= simple_form_for @comment, url: ticket_comments_path(ticket_id: @ticket.id) do |f|
+  = f.input :body, as: :text, input_html: { rows: 5 }, label: 'Write a comment'
+  = f.button :submit, class: 'btn-primary'
+
+br
+br
+p.lead Comments
+hr
+- @comments.each do |comment|
+  p= comment.body
+  small.text-muted= "Commented by #{comment.user.name} #{time_ago_in_words(comment.created_at)} ago"
+  hr
